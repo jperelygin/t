@@ -1,3 +1,3 @@
 @echo off
-a = %1
+set a = %1
 python t.py %1

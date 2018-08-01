@@ -10,33 +10,51 @@ import ast
 import requests
 from api_creds import api_key
 
+
 def read_arguments():
+    # returns an 'inf' Object with proper arguments
     description = 't is a programm for translation words from english to russian'
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('word', metavar='word', type=str, help='a word for translation')
-    args = parser.parse_args()
-    return args.word
-
-def send_request(word):
-    url = "https://translate.yandex.net/api/v1.5/tr.json/translate"
-    language = "en-ru"
-    data = {"key":api_key, "text":word, "lang":language}
-    r = requests.post(url, data=data)
-    #print(r.text)
-    return r.text # <str> with dict inside, like '{"code":200, "lang":"en-ru", "text":["Привет Мир"]}'
-
-def parse_response(resp):
-    resp_dict = ast.literal_eval(resp)
-    arr = resp_dict["text"]
-    return arr[0] # <str> with translated result
+    #TODO add 'lang' and 'dic' arguments
+    args = parser.parse_args() # args is a Namespace object with attribute 'word'= $word_to_translate
+    return inf(args.word)
 
 def show_result(word, result):
     # prints out '$word_to_translate -> $result_of_traslation and yandex.translate creds
     print('\n>>> ' + str(word) + ' -> ' + str(result) + '\n\nПереведено сервисом "Яндекс.Переводчик" http://translate.yandex.ru/ \n')
 
 
+class inf:
+
+    def __init__(self, word, lang=None, dic=None):
+        self.word = word
+        if lang is None: # 'lang' is an argument that controls what languages from and to a word should be translated 
+            self.lang = "en-ru" # translation from english to russian is a default statement for 'lang' argument
+        else:
+            self.lang = lang
+        if dic is None:
+            self.dic = None #TODO a 'dic' argument should control wether a transation is needed or definition from the dictionary
+
+    def parse_response(resp):
+        # makes <str> from response a usable <dict> and gets a value by the "text" key
+        resp_dict = ast.literal_eval(resp)
+        arr = resp_dict["text"]
+        return arr[0]
+
+    def send_request(self.word):
+        if self.dic is None: # if there is no kwarg 'dic' that needed to send a request for a definition of the word
+            url = "https://translate.yandex.net/api/v1.5/tr.json/translate"
+            data = {"key":api_key, "text":self.word, "lang":self.lang}
+            r = requests.post(url, data=data) 
+            result = parse_response(r.text) # r.text is a <str> with dict inside, like '{"code":200, "lang":"en-ru", "text":["Привет Мир"]}'
+            return result  # <str> with translated result
+        else:
+            #TODO send request to another API
+            pass
+    
+
 if __name__ == '__main__':
     word = read_arguments()
-    result_dict = send_request(word)
-    result = parse_response(result_dict)
-    show_result(word, result)
+    result = word.send_request(word.word)
+    show_result(word.word, result)
