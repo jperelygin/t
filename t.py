@@ -24,7 +24,6 @@ def show_result(word, result):
     # prints out '$word_to_translate -> $result_of_traslation and yandex.translate creds
     print('\n>>> ' + str(word) + ' -> ' + str(result) + '\n\nПереведено сервисом "Яндекс.Переводчик" http://translate.yandex.ru/ \n')
 
-        
 def parse_response(resp):
     # makes <str> from response a usable <dict> and gets a value by the "text" key
     resp_dict = ast.literal_eval(resp)
@@ -57,8 +56,6 @@ class inf:
 
 if __name__ == '__main__':
     infobj = read_arguments()
-    print(infobj)
     word = infobj.word
-    print(word)
     result = infobj.send_request(word)
     show_result(word, result)
