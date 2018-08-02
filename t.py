@@ -24,6 +24,13 @@ def show_result(word, result):
     # prints out '$word_to_translate -> $result_of_traslation and yandex.translate creds
     print('\n>>> ' + str(word) + ' -> ' + str(result) + '\n\nПереведено сервисом "Яндекс.Переводчик" http://translate.yandex.ru/ \n')
 
+        
+def parse_response(resp):
+    # makes <str> from response a usable <dict> and gets a value by the "text" key
+    resp_dict = ast.literal_eval(resp)
+    arr = resp_dict["text"]
+    return arr[0]
+
 
 class inf:
 
@@ -36,13 +43,7 @@ class inf:
         if dic is None:
             self.dic = None #TODO a 'dic' argument should control wether a transation is needed or definition from the dictionary
 
-    def parse_response(resp):
-        # makes <str> from response a usable <dict> and gets a value by the "text" key
-        resp_dict = ast.literal_eval(resp)
-        arr = resp_dict["text"]
-        return arr[0]
-
-    def send_request(self.word):
+    def send_request(self, word):
         if self.dic is None: # if there is no kwarg 'dic' that needed to send a request for a definition of the word
             url = "https://translate.yandex.net/api/v1.5/tr.json/translate"
             data = {"key":api_key, "text":self.word, "lang":self.lang}
@@ -52,9 +53,12 @@ class inf:
         else:
             #TODO send request to another API
             pass
-    
+
 
 if __name__ == '__main__':
-    word = read_arguments()
-    result = word.send_request(word.word)
-    show_result(word.word, result)
+    infobj = read_arguments()
+    print(infobj)
+    word = infobj.word
+    print(word)
+    result = infobj.send_request(word)
+    show_result(word, result)
