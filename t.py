@@ -22,7 +22,7 @@ def read_arguments():
 
 def show_result(word, result):
     # prints out '$word_to_translate -> $result_of_traslation and yandex.translate creds
-    print('\n>>> ' + str(word) + ' -> ' + str(result) + '\n\nПереведено сервисом "Яндекс.Переводчик" http://translate.yandex.ru/ \n')
+    print('\n>>> ' + str(word) + ' -> ' + str(result) + '\n\nПереведено сервисом "Яндекс.Переводчик" \nhttp://translate.yandex.ru/')
 
 def parse_response(resp):
     # makes <str> from response a usable <dict> and gets a value by the "text" key
