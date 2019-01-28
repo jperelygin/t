@@ -2,3 +2,5 @@ __pycache__/
 api_creds.py
 test.py
 test
+java-t/*.class
+java-t/APIKey.java
